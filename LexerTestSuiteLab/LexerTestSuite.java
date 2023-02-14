@@ -30,7 +30,7 @@ public class LexerTestSuite {
     }
     
     @Test
-    public void Assignment(){
+    public void customAssignment(){
         Lexer lexer = new Lexer("class X extends Y{\n A a = new A();\n}");
         lexer.run();
         Vector<Token> expected_tokens = new Vector<>();
@@ -49,5 +49,198 @@ public class LexerTestSuite {
         expected_tokens.add(new Token(";", ""));
         expected_tokens.add(new Token("}", ""));
         Assert.assertEquals(lexer.getTokens().toString(), expected_tokens.toString());
+    }
+
+    /**
+     * Testing binary variable assignment
+     */
+    @Test
+    public void binaryAssignment(){
+        Lexer lexer = new Lexer("byte binNumber = 0b00010001;");
+        lexer.run();
+        String[] listOfTokens = new String[]{"byte", "binNumber", "=", "0b00010001", ";" };
+        Vector<Token> expected_tokens = new Vector<>();
+        for (String word : listOfTokens){
+            expected_tokens.add(new Token(word, ""));
+        }
+
+        Assert.assertEquals(expected_tokens.toString(), lexer.getTokens().toString());
+    }
+
+    /**
+     * Testing octal variable assignment
+     */
+    @Test
+    public void octalAssignment(){
+        Lexer lexer = new Lexer("int number = 024;");
+        lexer.run();
+
+        String[] listOfTokens = new String[]{"int", "number", "=", "024", ";" };
+        Vector<Token> expected_tokens = new Vector<>();
+        for (String word : listOfTokens){
+            expected_tokens.add(new Token(word, ""));
+        }
+        Assert.assertEquals(expected_tokens.toString(), lexer.getTokens().toString());
+    }
+
+    /**
+     * Testing integer variable assignment
+     */
+    @Test
+    public void integerAssignment(){
+        Lexer lexer = new Lexer("int number = 0;");
+        lexer.run();
+
+        String[] listOfTokens = new String[]{"int", "number", "=", "0", ";" };
+        Vector<Token> expected_tokens = new Vector<>();
+        for (String word : listOfTokens){
+            expected_tokens.add(new Token(word, ""));
+        }
+        Assert.assertEquals(expected_tokens.toString(), lexer.getTokens().toString());
+    }
+
+    /**
+     * Testing hexadecimal variable assignment
+     */
+    @Test
+    public void hexAssignment(){
+        Lexer lexer = new Lexer("int number = 0x24;");
+        lexer.run();
+
+        String[] listOfTokens = new String[]{"int", "number", "=", "0x24", ";" };
+        Vector<Token> expected_tokens = new Vector<>();
+        for (String word : listOfTokens){
+            expected_tokens.add(new Token(word, ""));
+        }
+        Assert.assertEquals(expected_tokens.toString(), lexer.getTokens().toString());
+    }
+
+    /**
+     * Testing float variable assignment
+     */
+    @Test
+    public void floatAssignment(){
+        Lexer lexer = new Lexer("float number = 2.04;");
+        lexer.run();
+
+        String[] listOfTokens = new String[]{"float", "number", "=", "2.04", ";" };
+        Vector<Token> expected_tokens = new Vector<>();
+        for (String word : listOfTokens){
+            expected_tokens.add(new Token(word, ""));
+        }
+        Assert.assertEquals(expected_tokens.toString(), lexer.getTokens().toString());
+    }
+
+    /**
+     * Testing valid char variable assignment with a normal char
+     */
+    @Test
+    public void charAssignment(){
+        Lexer lexer = new Lexer("char letter = 'a';");
+        lexer.run();
+
+        String[] listOfTokens = new String[]{"char", "letter", "=", "'a'", ";" };
+        Vector<Token> expected_tokens = new Vector<>();
+        for (String word : listOfTokens){
+            expected_tokens.add(new Token(word, ""));
+        }
+        Assert.assertEquals(expected_tokens.toString(), lexer.getTokens().toString());
+    }
+
+    /**
+     * Testing valid char variable assignment with a special char
+     */
+    @Test
+    public void specialCharAssignment(){
+        Lexer lexer = new Lexer("char letter = '\\a';");
+        lexer.run();
+
+        String[] listOfTokens = new String[]{"char", "letter", "=", "'\\a'", ";" };
+        Vector<Token> expected_tokens = new Vector<>();
+        for (String word : listOfTokens){
+            expected_tokens.add(new Token(word, ""));
+        }
+        Assert.assertEquals(expected_tokens.toString(), lexer.getTokens().toString());
+    }
+
+    /**
+     * Testing valid char variable assignment with a special char \'
+     * targets condition on line 119 of Lexer.java
+     */
+    @Test
+    public void quoteAsCharAssignment(){
+        Lexer lexer = new Lexer("char letter = '\\'';");
+        lexer.run();
+
+        String[] listOfTokens = new String[]{"char", "letter", "=", "'\\''", ";" };
+        Vector<Token> expected_tokens = new Vector<>();
+        for (String word : listOfTokens){
+            expected_tokens.add(new Token(word, ""));
+        }
+        Assert.assertEquals(expected_tokens.toString(), lexer.getTokens().toString());
+    }
+
+    /**
+     * Testing invalid char variable assignment with a normal char
+     */
+    @Test
+    public void invalidCharAssignment(){
+        Lexer lexer = new Lexer("char letter = 'aa';");
+        lexer.run();
+
+        String[] listOfTokens = new String[]{"char", "letter", "=", "'aa'", ";" };
+        Vector<Token> expected_tokens = new Vector<>();
+        for (String word : listOfTokens){
+            expected_tokens.add(new Token(word, ""));
+        }
+        Assert.assertEquals(expected_tokens.toString(), lexer.getTokens().toString());
+    }
+
+    /**
+     * Testing invalid char variable assignment with empty char
+     */
+    @Test
+    public void emptyCharAssignment(){
+        Lexer lexer = new Lexer("char letter = '';");
+        lexer.run();
+
+        String[] listOfTokens = new String[]{"char", "letter", "=", "''", ";" };
+        Vector<Token> expected_tokens = new Vector<>();
+        for (String word : listOfTokens){
+            expected_tokens.add(new Token(word, ""));
+        }
+        Assert.assertEquals(expected_tokens.toString(), lexer.getTokens().toString());
+    }
+
+    /**
+     * Testing invalid char variable assignment with only one '
+     */
+    @Test
+    public void invalidMissingQuoteCharAssignment(){
+        Lexer lexer = new Lexer("char letter = ';");
+        lexer.run();
+
+        String[] listOfTokens = new String[]{"char", "letter", "=", "';" };
+        Vector<Token> expected_tokens = new Vector<>();
+        for (String word : listOfTokens){
+            expected_tokens.add(new Token(word, ""));
+        }
+        Assert.assertEquals(expected_tokens.toString(), lexer.getTokens().toString());
+    }
+
+    /**
+     * Testing empty string variable assignment
+     */
+    @Test
+    public void emptyStringAssignment(){
+        Lexer lexer = new Lexer("String str = \"\";");
+        lexer.run();
+
+        String[] listOfTokens = new String[]{"String", "str", "=", "\"\"", ";" };
+        Vector<Token> expected_tokens = new Vector<>();
+        for (String word : listOfTokens){
+            expected_tokens.add(new Token(word, ""));
+        }
+        Assert.assertEquals(expected_tokens.toString(), lexer.getTokens().toString());
     }
 }
