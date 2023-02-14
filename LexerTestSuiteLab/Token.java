@@ -1,3 +1,4 @@
+package LexerTestSuiteLab;
 
 public class Token {
 
