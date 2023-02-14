@@ -41,5 +41,10 @@ public class Token {
   public void setLine(int line) {
     this.line = line;
   }
+  
+  public String toString(){
+
+    return word;
+  }
 
 }
