@@ -52,6 +52,23 @@ public class LexerTestSuite {
     }
 
     /**
+     * tests all getter and setter methods of Token
+     */
+    @Test
+    public void testTokenFunctions(){
+        Token temp = new Token("blank", "token", 0);
+        Assert.assertEquals("blank", temp.getWord());
+        Assert.assertEquals("token", temp.getToken());
+        Assert.assertEquals(0, temp.getLine());
+        temp.setWord("word");
+        temp.setToken("new");
+        temp.setLine(37);
+        Assert.assertEquals("word", temp.getWord());
+        Assert.assertEquals("new", temp.getToken());
+        Assert.assertEquals(37, temp.getLine());
+    }
+
+    /**
      * Testing binary variable assignment
      */
     @Test
