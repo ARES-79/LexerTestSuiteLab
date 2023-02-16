@@ -410,4 +410,58 @@ public class LexerTestSuite {
         expected_tokens.add(new Token("}", ""));
         Assert.assertEquals(lexer.getTokens().toString(), expected_tokens.toString());
     }
+
+    @Test
+    public void Equality() {
+        Lexer lexer = new Lexer("if(x == y)");
+        lexer.run();
+
+        String[] listOfTokens = new String[]{"if", "(", "x", "==", "y", ")"};
+        Vector<Token> expected_tokens = new Vector<>();
+        for (String word : listOfTokens) {
+            expected_tokens.add(new Token(word, ""));
+        }
+        Assert.assertEquals(expected_tokens.toString(), lexer.getTokens().toString());
+    }
+
+    @Test
+    public void Inequality() {
+        Lexer lexer = new Lexer("if(x != y)");
+        lexer.run();
+
+        String[] listOfTokens = new String[]{"if", "(", "x", "!=", "y", ")"};
+        Vector<Token> expected_tokens = new Vector<>();
+        for (String word : listOfTokens) {
+            expected_tokens.add(new Token(word, ""));
+        }
+        Assert.assertEquals(expected_tokens.toString(), lexer.getTokens().toString());
+    }
+
+    @Test
+    public void testOtherCharacter2() {
+        Lexer lexer = new Lexer("String a_b = \"`c_d~\";");
+        lexer.run();
+        Vector<Token> expected_tokens = new Vector<>();
+        expected_tokens.add(new Token("String", ""));
+        expected_tokens.add(new Token("a_b", ""));
+        expected_tokens.add(new Token("=", ""));
+        expected_tokens.add(new Token("\"`c_d~", ""));
+        expected_tokens.add(new Token("\";", ""));
+        Assert.assertEquals(lexer.getTokens().toString(), expected_tokens.toString());
+    }
+
+    @Test
+    public void ElseStmtOperator() {
+        Lexer lexer = new Lexer("=");
+        lexer.run();
+
+        String[] listOfTokens = new String[]{"="};
+        Vector<Token> expected_tokens = new Vector<>();
+        for (String word : listOfTokens) {
+            expected_tokens.add(new Token(word, ""));
+        }
+        Assert.assertEquals(expected_tokens.toString(), lexer.getTokens().toString());
+    }
+
+
 }
